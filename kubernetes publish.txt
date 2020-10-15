@@ -1,0 +1,10 @@
+kubectl apply -f ./nginx-service.yaml
+kubectl apply -f ./mysql-service.yaml
+kubectl apply -f ./php-service.yaml
+kubectl apply -f ./mynginx-deployment.yaml
+kubectl apply -f ./mysql-deployment.yaml
+kubectl apply -f ./php-deployment.yaml
+
+
+##Substitute name as appropriate
+kubectl port-forward mynginx-69b57bcfdc-bllmv 80:80
