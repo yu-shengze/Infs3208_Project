@@ -1,0 +1,74 @@
+version: '3'
+services:
+    #MariaDB
+    mysql:
+        image: yushengze/mysql:latest
+        container_name: mysql
+        restart: always
+        privileged: true
+        ports:
+            - "3306:3306"
+        networks:
+            - app-network
+
+    #Nginx
+    mynginx:
+        image: yushengze/mynginx:latest
+        depends_on: 
+            - php
+            - mysql
+        privileged: true
+        container_name: mynginx
+        restart: always
+        ports:
+            - "80:80"        
+        networks:
+            - app-network
+
+    #Php
+    php:
+        image: yushengze/myphp:latest
+        container_name: myphp
+        restart: always
+        ports:
+            - "9000:9000"
+        networks:
+            - app-network
+
+    #admin for db use
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: pma
+        depends_on: 
+            - mysql
+        privileged: true
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_ROOT_PASSWORD: MyDBRoot123
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        restart: always
+        ports:
+            - 8081:80
+        networks:
+            - app-network
+
+#Volumes
+volumes: 
+    database: 
+
+#Network
+networks:
+    app-network:
+        driver: bridge
+
+
+    
+
+
+
+
+
+
+    
